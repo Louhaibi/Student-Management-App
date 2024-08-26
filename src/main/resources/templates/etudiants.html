@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"> <!--  on ajoute ça pour travailler avec thymeleaf pour aider à afficher les etudiants--> 
+<head> 
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+<link rel="stylesheet" href="../static/css/myStyle.css" th:href="@{/css/myStyle.css}"/>
+<title>Liste des etudiants</title>
+</head>
+<body>
+<!-- @ = une action/ un nom d'une vue du controlleur    $ = l'attribut ou la valeur -->
+	<div class="container spacer">
+		<a th:href="@{form}">Saisir Etudiant</a>
+	</div>
+
+
+	<div class="container spacer">
+		<form th:action="@{index}" method="get"> <!-- quand je valide le formulaire j'appelle la method index du controlleur -->
+			<div class="form-group">
+				<label>Mot Clé</label>
+				<input type="text" name="motCle" th:value="${motCle}" />
+				<button type="submit">Chercher</button>
+			</div>
+		</form>
+	</div>
+	
+	<div class="container spacer">
+		<table class="table table-striped-columns">
+			<thead>
+				<tr>
+					<th>ID</th> <th>Nom</th> <th>Email</th> <th>Date</th> <th>Photo</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="e:${pageEtudiants}">
+					<td th:text="${e.id}"></td>
+					<td th:text="${e.nom}"></td> 
+					<td th:text="${e.email}"></td>
+					<td th:text="${e.date}"></td>
+					<td th:text="${e.photo}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="container">
+		<ul class="nav nav-pills">
+			<li th:each="p:${pages}" class="nav-item" >
+				<a th:text="${p}" th:href="@{index(page=${p}, motCle=${motCle})}" th:class=" ${p==pageCourante}?'nav-link active':''"  ></a>
+			</li>
+		</ul>
+	
+	</div>
+
+</body>
+</html>
